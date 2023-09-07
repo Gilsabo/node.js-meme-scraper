@@ -1,7 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-// import https from 'node:https';
-// import fs from 'node:fs';
 import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
 
@@ -33,37 +31,43 @@ for (let i = 0; i <= 9; i++) {
 console.log(arrayImages);
 
 // The URL of the image to download
-const imageURL = arrayImages[0];
+arrayImages.forEach((image, index) => {
+  const imageURL = image;
 
-// The path of the directory to save the image
-const dirPath = './memes';
+  // The path of the directory to save the image
+  const dirPath = './memes';
 
-// The name of the image file
+  // The name of the image file
 
-// Create the directory if it does not exist
-if (!fs.existsSync(dirPath)) {
-  fs.mkdirSync(dirPath);
-}
+  let fileName = `0${index + 1}.jpg`;
 
-const fileName = '01.jpg';
+  if (index === 9) {
+    fileName = `${index + 1}.jpg`;
+  }
+  // Create the directory if it does not exist
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath);
+  }
 
-// Use fetch to get the image data as a buffer
-fetch(imageURL)
-  .then((resp) => resp.arrayBuffer())
-  .then((buffer) => {
-    // Write the buffer to a file // buffer needs to be turned to string
-    fs.writeFile(path.join(dirPath, fileName), buffer.toString(), (err) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Image downloaded successfully');
-      }
+  // Use fetch to get the image data as a buffer
+  fetch(imageURL)
+    .then((resp) => resp.arrayBuffer())
+    .then((buffer) => {
+      // Write the buffer to a file // buffer needs to be turned to string
+      fs.writeFile(path.join(dirPath, fileName), buffer.toString(), (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log('Image downloaded successfully');
+        }
+      });
+    })
+    .catch((error) => {
+      console.error(error);
     });
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
+});
+// import https from 'node:https';
+// import fs from 'node:fs';
 // This piece of code but does not store in memes
 
 // const imageUrl = arrayImages[0];
