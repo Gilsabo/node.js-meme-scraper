@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+// import https from 'node:https';
 // import fs from 'node:fs';
 import * as cheerio from 'cheerio';
 import fetch from 'node-fetch';
@@ -25,7 +28,60 @@ const arrayImages = [];
 
 for (let i = 0; i <= 9; i++) {
   arrayImages.push(listItems[i].attribs.src);
-  console.log(i);
 }
 
 console.log(arrayImages);
+
+// The URL of the image to download
+const imageURL = arrayImages[0];
+
+// The path of the directory to save the image
+const dirPath = './memes';
+
+// The name of the image file
+
+// Create the directory if it does not exist
+if (!fs.existsSync(dirPath)) {
+  fs.mkdirSync(dirPath);
+}
+
+const fileName = '01.jpg';
+
+// Use fetch to get the image data as a buffer
+fetch(imageURL)
+  .then((resp) => resp.arrayBuffer())
+  .then((buffer) => {
+    // Write the buffer to a file // buffer needs to be turned to string
+    fs.writeFile(path.join(dirPath, fileName), buffer.toString(), (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Image downloaded successfully');
+      }
+    });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+// This piece of code but does not store in memes
+
+// const imageUrl = arrayImages[0];
+// const imageName = '01.jpg';
+
+// const file = fs.createWriteStream(imageName);
+
+/* https
+  .get(imageUrl, (resp) => {
+    resp.pipe(file);
+
+    file.on('finish', () => {
+      file.close();
+      console.log(`Image downloaded as ${imageName}`);
+    });
+  })
+  .on('error', (err) => {
+    fs.unlink(imageName);
+    console.error(`Error downloading image: ${err.message}`);
+  });
+ */
