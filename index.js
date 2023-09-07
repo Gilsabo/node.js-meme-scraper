@@ -38,7 +38,6 @@ arrayImages.forEach((image, index) => {
   const dirPath = './memes';
 
   // The name of the image file
-
   let fileName = `0${index + 1}.jpg`;
 
   if (index === 9) {
@@ -53,12 +52,16 @@ arrayImages.forEach((image, index) => {
   fetch(imageURL)
     .then((resp) => resp.arrayBuffer())
     .then((buffer) => {
-      // Write the buffer to a file // buffer needs to be turned to string
-      fs.writeFile(path.join(dirPath, fileName), buffer.toString(), (err) => {
+      // convert arraybuffer into buffer
+      const arrBuffer = buffer;
+      const nodeBuffer = Buffer.from(arrBuffer);
+
+      fs.writeFile(path.join(dirPath, fileName), nodeBuffer, (err) => {
         if (err) {
           console.error(err);
         } else {
           console.log('Image downloaded successfully');
+          console.log('buffer', buffer);
         }
       });
     })
