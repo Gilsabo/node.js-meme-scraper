@@ -61,7 +61,6 @@ arrayImages.forEach((image, index) => {
           console.error(err);
         } else {
           console.log('Image downloaded successfully');
-          console.log('buffer', buffer);
         }
       });
     })
