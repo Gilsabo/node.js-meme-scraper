@@ -12,15 +12,11 @@ const $ = cheerio.load(body);
 
 const listItems = $('a').find('img');
 
-console.log(listItems[0].attribs.src);
-
 const arrayImages = [];
 
 for (let i = 0; i <= 9; i++) {
   arrayImages.push(listItems[i].attribs.src);
 }
-
-console.log(arrayImages);
 
 // The URL of the image to download
 arrayImages.forEach((image, index) => {
@@ -60,26 +56,3 @@ arrayImages.forEach((image, index) => {
       console.error(error);
     });
 });
-// import https from 'node:https';
-// import fs from 'node:fs';
-// This piece of code but does not store in memes
-
-// const imageUrl = arrayImages[0];
-// const imageName = '01.jpg';
-
-// const file = fs.createWriteStream(imageName);
-
-/* https
-  .get(imageUrl, (resp) => {
-    resp.pipe(file);
-
-    file.on('finish', () => {
-      file.close();
-      console.log(`Image downloaded as ${imageName}`);
-    });
-  })
-  .on('error', (err) => {
-    fs.unlink(imageName);
-    console.error(`Error downloading image: ${err.message}`);
-  });
- */
